@@ -203,6 +203,41 @@ SUPABASE_KEY=your_supabase_key
 
 ---
 
+# 📸 Screenshots
+
+## AI Dashboard
+![Dashboard](dashboard.png)
+
+---
+
+## Homepage
+![Homepage](homepage.png)
+
+---
+
+## Candidate Ranking Results
+![Results](result.png)
+
+---
+
+## Search & Filters
+![Search](searchbar.png)
+
+---
+
+## Swagger API Documentation
+![Swagger](swagger.png)
+
+---
+
+## Supabase Database
+![Supabase](supabse.png)
+
+---
+
+## Candidate Database
+![Database](candidatedatbse.png)
+
 # 📊 Project Highlights
 
 - AI semantic ranking engine
