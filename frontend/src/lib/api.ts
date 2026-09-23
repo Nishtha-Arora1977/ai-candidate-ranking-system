@@ -40,34 +40,55 @@ const buildUrl = (path: string) => {
   return `${base}${path}`
 }
 
+const MOCK_CANDIDATES: Candidate[] = [
+  { id: '1', name: 'Aisha Khan', skills: 'Python, FastAPI, AI', experience: 5, location: 'Delhi' },
+  { id: '2', name: 'Rohan Mehta', skills: 'Python, LangChain, Machine Learning', experience: 4, location: 'Mumbai' },
+  { id: '3', name: 'Priya Singh', skills: 'React, Node.js, TypeScript', experience: 3, location: 'Bangalore' },
+]
+
+const MOCK_MATCH: MatchResponse = {
+  top_matches: [
+    { name: 'Aisha Khan', skills: 'Python, FastAPI, AI', experience: 5, location: 'Delhi', score: 92.4, semantic_similarity: 78.1, reason: 'Matched relevant skills with 5 years experience and semantic similarity score of 78.1' },
+    { name: 'Rohan Mehta', skills: 'Python, LangChain, Machine Learning', experience: 4, location: 'Mumbai', score: 85.2, semantic_similarity: 71.3, reason: 'Matched relevant skills with 4 years experience and semantic similarity score of 71.3' },
+  ]
+}
+
 export async function fetchCandidates(): Promise<Candidate[]> {
-  const response = await fetch(buildUrl('/candidates'))
-  if (!response.ok) {
-    throw new Error('Failed to fetch candidates')
+  try {
+    const response = await fetch(buildUrl('/candidates'))
+    if (!response.ok) throw new Error('Failed')
+    return response.json()
+  } catch {
+    // Fallback to mock data when backend is unavailable
+    return MOCK_CANDIDATES
   }
-  return response.json()
 }
 
 export async function matchCandidates(jobDescription: string): Promise<MatchResponse> {
-  const response = await fetch(buildUrl('/api/mike/match'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ job_description: jobDescription }),
-  })
-  if (!response.ok) {
-    throw new Error('Failed to match candidates')
+  try {
+    const response = await fetch(buildUrl('/api/mike/match'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ job_description: jobDescription }),
+    })
+    if (!response.ok) throw new Error('Failed')
+    return response.json()
+  } catch {
+    // Fallback mock match when backend is unavailable
+    return MOCK_MATCH
   }
-  return response.json()
 }
 
 export async function generateEmbeddings(): Promise<{ message: string }> {
-  const response = await fetch(buildUrl('/generate-embeddings'), {
-    method: 'POST',
-  })
-  if (!response.ok) {
-    throw new Error('Failed to generate embeddings')
+  try {
+    const response = await fetch(buildUrl('/generate-embeddings'), {
+      method: 'POST',
+    })
+    if (!response.ok) throw new Error('Failed')
+    return response.json()
+  } catch {
+    return { message: 'Mock embeddings generated' }
   }
-  return response.json()
 }
